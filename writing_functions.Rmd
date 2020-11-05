@@ -47,7 +47,7 @@ z_scores(x_vec)
 ```
 
 
-Try my function on some other things 
+Try my function on some other things. These should give errors
 
 ```{r, error = TRUE}
 z_scores(3)
@@ -56,6 +56,63 @@ z_scores(mtcars)
 z_scores(c(TRUE, TRUE, FALSE, TRUE))
 ```
 
+## Multiple Outputs
+
+```{r}
+mean_and_sd = function(x){
+  
+  if (!is.numeric(x)) {
+    stop("Argument x must be numeric")
+  } else if (length(x) < 3) {
+    stop("Input must have at least 3 numbers")
+  }
+  
+  mean_x = mean(x)
+  sd_x = sd(x)
+
+  tibble(mean = mean_x, 
+       sd = sd_x)
+}
+```
+
+Check that the function works
+
+```{r}
+mean_and_sd(x_vec)
+```
+
+## Multiple Inputs
 
 
+I'd like to do this with a function
+```{r}
+sim_data = tibble(
+  x = rnorm(100, mean = 4, sd = 3)
+)
+
+sim_data %>% 
+  summarize(
+    mu_hat = mean(x),
+    sigma_hat = sd(x)
+  )
+```
+
+Write function
+```{r}
+sim_mean_sd = function(n, mu, sigma) {
+  
+  sim_data = tibble(
+    x = rnorm(n = n, mean = mu, sd = sigma),
+  )
+  
+  sim_data %>% 
+    summarize(
+      mu_hat = mean(x),
+      sigma_hat = sd(x)
+    )
+}
+
+
+sim_mean_sd(n = 100,mu = 3,sigma = 6)
+```
 

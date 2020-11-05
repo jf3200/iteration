@@ -77,7 +77,7 @@ z_scores(x_vec)
     ## [19]  0.68682298  0.44756609  0.78971253  0.64568566 -0.09904161 -2.27133861
     ## [25]  0.47485186
 
-Try my function on some other things
+Try my function on some other things. These should give errors
 
 ``` r
 z_scores(3)
@@ -102,3 +102,79 @@ z_scores(c(TRUE, TRUE, FALSE, TRUE))
 ```
 
     ## Error in z_scores(c(TRUE, TRUE, FALSE, TRUE)): Argument x must be numeric
+
+## Multiple Outputs
+
+``` r
+mean_and_sd = function(x){
+  
+  if (!is.numeric(x)) {
+    stop("Argument x must be numeric")
+  } else if (length(x) < 3) {
+    stop("Input must have at least 3 numbers")
+  }
+  
+  mean_x = mean(x)
+  sd_x = sd(x)
+
+  tibble(mean = mean_x, 
+       sd = sd_x)
+}
+```
+
+Check that the function works
+
+``` r
+mean_and_sd(x_vec)
+```
+
+    ## # A tibble: 1 x 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  5.51  2.85
+
+## Multiple Inputs
+
+I’d like to do this with a function
+
+``` r
+sim_data = tibble(
+  x = rnorm(100, mean = 4, sd = 3)
+)
+
+sim_data %>% 
+  summarize(
+    mu_hat = mean(x),
+    sigma_hat = sd(x)
+  )
+```
+
+    ## # A tibble: 1 x 2
+    ##   mu_hat sigma_hat
+    ##    <dbl>     <dbl>
+    ## 1   4.28      2.57
+
+Write function
+
+``` r
+sim_mean_sd = function(n, mu, sigma) {
+  
+  sim_data = tibble(
+    x = rnorm(n = n, mean = mu, sd = sigma),
+  )
+  
+  sim_data %>% 
+    summarize(
+      mu_hat = mean(x),
+      sigma_hat = sd(x)
+    )
+}
+
+
+sim_mean_sd(n = 100,mu = 3,sigma = 6)
+```
+
+    ## # A tibble: 1 x 2
+    ##   mu_hat sigma_hat
+    ##    <dbl>     <dbl>
+    ## 1   2.70      6.22
