@@ -323,3 +323,17 @@ f(x = y)
 ```
 
     ## [1] 4
+
+## Functions as Arguments
+
+``` r
+x_vec = rnorm(25, 0, 1)
+
+my_summary = function(x, summ_func) {
+  summ_func(x)
+}
+
+my_summary(x_vec, sd)
+```
+
+    ## [1] 1.077281
