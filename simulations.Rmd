@@ -1,0 +1,43 @@
+---
+title: "Simulation"
+author: "Jessica Flynn"
+date: "11/10/2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(rvest)
+```
+
+## Let's simulate something
+
+I have a function
+
+```{r}
+sim_mean_sd = function(n, mu = 3, sigma = 4) {
+  
+  sim_data = 
+    tibble(
+    x = rnorm(n, mean = mu, sd = sigma),
+  )
+  
+  sim_data %>% 
+    summarize(
+      mu_hat = mean(x),
+      sigma_hat = sd(x)
+    )
+}
+```
+
+I can "simulate" by running this line
+
+```{r}
+sim_mean_sd(30)
+```
+
+Let's simulate a lot
